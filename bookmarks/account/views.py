@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
+from django.contrib.auth.decorators import login_required
 
-
-# обработчик авторизации
+# собственный обработчик авторизации
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -25,3 +25,10 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'account/login.html', {'form': form})
+
+
+# обработчик для отображения рабочего стола, который пользователь увидит при 
+# входе в свой аккаунт
+@login_required
+def dashboard(request):
+    return render(request, 'account/dashboard.html', {'section': 'dashboard'})
