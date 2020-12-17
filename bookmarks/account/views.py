@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, UserRegistrationForm
+from .forms import LoginForm, UserRegistrationForm, UserEditFrom, ProfileEditForm
 from django.contrib.auth.decorators import login_required
+from .models import Profile
 
 
 # собственный обработчик авторизации
@@ -44,6 +45,8 @@ def register(request):
             new_user = user_form.save(commit=False)
             # Задаем пользователю зашифрованный пароль.
             new_user.set_password(user_form.cleaned_data['password'])
+            # Создание профиля пользователя.
+            Profile.objects.create(user=new_user)
             # Сохраняем пользователя в базе данных.
             new_user.save()
             return render(
@@ -54,3 +57,21 @@ def register(request):
     return render(request, 'account/register.html', {'user_form': user_form})
 
 
+# обработчик для сохранения изменений в профиле
+@login_required
+def edit(request):
+    if request.method == 'POST':
+        user_form = UserEditFrom(instance=request.user, data=request.POST)
+        profile_form = ProfileEditForm(
+            instance=request.user.profile, 
+            data=request.POST, 
+            files=request.FILES)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+    else:
+        user_form = UserEditFrom(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+    return render(
+        request, 'account/edit.html', 
+        {'user_form': user_form, 'profile_form': profile_form})

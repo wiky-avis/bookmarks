@@ -4,6 +4,8 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
+    # редактирование профиля
+    path('edit/', views.edit, name='edit'),
     # регистрация
     path('register/', views.register, name='register'),
     # Обработчики восстановления пароля.
