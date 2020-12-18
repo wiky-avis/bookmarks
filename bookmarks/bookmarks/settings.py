@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'social_django',
     # для генерирации превью картинок
     'sorl.thumbnail',
+    # лента активности пользователей
+    'actions.apps.ActionsConfig',
 ]
 
 MIDDLEWARE = [
