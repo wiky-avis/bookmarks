@@ -25,7 +25,7 @@ SECRET_KEY = 'wi-3l4!@9o(k2_kmx_j8&-^t8cma@$dn^%jy1_096pz2w@yi(h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', '1a5476e52cf9.ngrok.io']
+ALLOWED_HOSTS = ['mysite.com', 'localhost', '127.0.0.1', 'aade5bb0e3a1.ngrok.io']
 
 
 # Application definition
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # приложение для аутентификации через соцсети
     'social_django',
+    # для генерирации превью картинок
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
